@@ -23,7 +23,7 @@ function Nevbar() {
   }, [location])
 
   return (
-    <header className="sticky top-0 z-30 px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300 bg-white/80 backdrop-blur-md shadow-sm lg:ml-72">
+   <header className="sticky top-0 z-30 w-full px-4 sm:px-6 py-3 sm:py-4 transition-all duration-300 bg-white/80 backdrop-blur-md shadow-sm lg:ml-72 lg:w-[calc(100%-18rem)]">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 sm:gap-4">
           {/* Mobile Menu Toggle */}

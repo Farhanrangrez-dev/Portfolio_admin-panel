@@ -103,12 +103,12 @@ function Sidebar() {
         
         {/* Mobile Logout Button */}
         <div className="lg:hidden absolute bottom-6 left-4 right-4">
-          <button className="w-full flex items-center gap-3 px-5 py-3.5 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-all duration-200 font-medium shadow-lg shadow-red-500/30 hover:shadow-red-500/40">
+          {/* <button className="w-full flex items-center gap-3 px-5 py-3.5 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-all duration-200 font-medium shadow-lg shadow-red-500/30 hover:shadow-red-500/40">
             <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
               <i className="ri-logout-box-r-line text-lg" />
             </div>
             <span>Logout</span>
-          </button>
+          </button> */}
         </div>
       </aside>
     </>
