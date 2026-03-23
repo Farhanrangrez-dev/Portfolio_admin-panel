@@ -18,7 +18,8 @@ function Sidebar() {
     { to: '/admin/experience', icon: 'ri-briefcase-line', label: 'Experience' },
     { to: '/admin/profile', icon: 'ri-user-settings-line', label: 'Profile' },
     { to: '/admin/hero-section', icon: 'ri-layout-top-line', label: 'Hero Section' },
-    { to: '/admin/settings', icon: 'ri-settings-3-line', label: 'Settings' }
+    { to: '/admin/settings', icon: 'ri-settings-3-line', label: 'Settings' },
+    { to: '/signup', icon: 'ri-arrow-right-line', label: 'signup' }
   ]
 
   const handleLinkClick = () => {
