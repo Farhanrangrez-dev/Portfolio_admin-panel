@@ -103,7 +103,6 @@ const handleSubmit = async (e) => {
           form.append(key, formData[key])
         }
       })
-
       body = form
       headers = {
         Authorization: `Bearer ${user?.token}` // ❌ no content-type
@@ -133,19 +132,35 @@ const handleSubmit = async (e) => {
         body,
       })
     }
+  
     
-const result = await res.json()
+let result;
+
+try {
+  result = await res.json();
+} catch (err) {
+  throw new Error("Invalid server response");
+}
 
 if (!res.ok) throw new Error(result.message)
 
 // ✅ yaha fix hai
-const projectData = result.data
+const projectData = result?.data || result;
+
+if (!projectData) {
+  toast.error("Invalid server response");
+  return;
+}
 
 if (editingId) {
-  setProjects(projects.map((p) => (p._id === editingId ? projectData : p)))
+  setProjects(prev =>
+  prev
+    .map((p) => (p._id === editingId ? projectData : p))
+    .filter(Boolean)
+)
   toast.success('Project updated!')
 } else {
-  setProjects([projectData, ...projects])
+  setProjects(prev => [projectData, ...prev])
   toast.success('Project added!')
 }
 
@@ -181,7 +196,7 @@ if (editingId) {
       </div>
     )
   }
-
+ 
   return (
     <div>
       <div className="space-y-6">
@@ -210,7 +225,7 @@ if (editingId) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {projects.map((project) => (
+           {projects?.filter(Boolean).map((project) => (
               <div
                 key={project._id}
                 className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
@@ -220,7 +235,7 @@ if (editingId) {
                     <img
                       alt={project.title}
                       className="w-full h-full object-cover"
-                      src={project.image}
+                   src={project?.image || ""}
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-100 flex items-center justify-center">
