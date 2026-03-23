@@ -51,7 +51,7 @@ function Resume() {
 
       toast.success('Resume uploaded successfully ✅')
       console.log(data)
-
+      fetchResume()
     } catch (error) {
       toast.error(error.message || 'Upload failed ❌')
     } finally {
