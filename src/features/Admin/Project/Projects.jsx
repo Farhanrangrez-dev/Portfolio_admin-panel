@@ -85,7 +85,7 @@ const handleSubmit = async (e) => {
   try {
 
     // ✅ check: image file hai ya nahi
-    const isFile = formData.image instanceof File
+   const isFile = formData.image && typeof formData.image !== "string"
 
     let body
     let headers
@@ -111,7 +111,10 @@ const handleSubmit = async (e) => {
 
     } else {
       // ✅ Normal JSON (no change)
-      body = JSON.stringify(formData)
+    body = JSON.stringify({
+  ...formData,
+  technologies: formData.technologies
+})
       headers = getHeaders()
     }
 
