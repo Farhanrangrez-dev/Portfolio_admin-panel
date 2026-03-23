@@ -1,9 +1,13 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 import { useSidebar } from '../../contexts/SidebarContext'
+import { useLocation, useNavigate,NavLink } from 'react-router-dom'
+import { useAuth } from '../../contexts/useAuth'
 
 function Sidebar() {
+   const { user, logout } = useAuth()
+   const navigate = useNavigate()
   const { isOpen, closeSidebar } = useSidebar()
+
 
   const menuItems = [
     { to: '/admin/dashboard', icon: 'ri-dashboard-line', label: 'Dashboard' },
@@ -21,6 +25,12 @@ function Sidebar() {
     closeSidebar()
   }
 
+
+   const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
+
   return (
     <>
       {/* Mobile Menu Overlay */}
@@ -32,9 +42,9 @@ function Sidebar() {
       )}
       
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-0 h-full w-72 bg-gradient-to-b from-[#facc15] to-[#eab308] z-50 transition-all duration-300 ease-out shadow-2xl ${
-        isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-      }`}>
+     <aside className={`fixed left-0 top-0 h-full w-72 bg-gradient-to-b from-[#facc15] to-[#eab308] z-50 transition-all duration-300 ease-out shadow-2xl flex flex-col ${
+  isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+}`}>
         <div className="h-20 flex items-center justify-between px-6 border-b border-black/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center">
@@ -97,19 +107,19 @@ function Sidebar() {
                   {isActive && <i className="ri-arrow-right-s-line ml-auto" />}
                 </>
               )}
+              
             </NavLink>
+            
           ))}
-        </nav>
-        
-        {/* Mobile Logout Button */}
-        <div className="lg:hidden absolute bottom-6 left-4 right-4">
-          {/* <button className="w-full flex items-center gap-3 px-5 py-3.5 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-all duration-200 font-medium shadow-lg shadow-red-500/30 hover:shadow-red-500/40">
+          <button   onClick={handleLogout} className="w-full flex items-center gap-3 px-5 py-3.5 bg-red-600 text-white rounded-xl hover:bg-red-500 transition-all duration-200 font-medium shadow-lg shadow-red-500/30 hover:shadow-red-500/40">
             <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
               <i className="ri-logout-box-r-line text-lg" />
             </div>
             <span>Logout</span>
-          </button> */}
-        </div>
+          </button> 
+        </nav>
+        
+       
       </aside>
     </>
   )

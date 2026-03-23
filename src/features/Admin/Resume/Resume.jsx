@@ -167,46 +167,61 @@ const handleDownload = async () => {
 
 
 {/*  */}
-         <div className="bg-white rounded-xl p-8 shadow-sm">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-          <div className="w-24 h-24 bg-red-50 rounded-xl flex items-center justify-center shrink-0">
-            <i className="ri-file-pdf-line text-5xl text-red-500" />
-          </div>
-          <div className="flex-1">
-            <h3 className="text-xl font-bold text-black mb-2">
-              {resume?.filename || 'No file'}
-            </h3>
-            <div className="flex items-center gap-4 text-gray-500">
-              <span className="flex items-center gap-2">
-                <i className="ri-hard-drive-2-line" />
-                379.5 KB
-              </span>
-              <span className="flex items-center gap-2">
-                <i className="ri-calendar-line" />
-                {resume?.createdAt && new Date(resume.createdAt).toLocaleDateString('en-IN')}
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 w-full md:w-auto">
-  <button
-  onClick={handleDownload}
-  className="flex-1 md:flex-none px-5 py-2.5 bg-[#facc15] text-black rounded-lg font-medium hover:bg-[#eab308] transition-colors flex items-center justify-center gap-2"
->
-  <i className="ri-download-line" />
-  <span>Download</span>
-</button>
-            <label className="flex-1 md:flex-none px-5 py-2.5 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 cursor-pointer">
-              <i className="ri-restart-line" />
-              <span>Replace</span>
-              <input accept=".pdf" className="hidden" type="file" />
-            </label>
-            <button   onClick={() => handleDelete(resume)} className="px-4 py-2.5 border border-red-200 text-red-500 rounded-lg hover:bg-red-50 transition-colors">
-              <i className="ri-delete-bin-line" />
-            </button>
-          </div>
-        </div>
-      </div>
+    <div className="bg-white rounded-xl p-4 sm:p-6 md:p-8 shadow-sm">
+  <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
 
+    {/* Icon */}
+    <div className="w-20 h-20 sm:w-24 sm:h-24 bg-red-50 rounded-xl flex items-center justify-center shrink-0">
+      <i className="ri-file-pdf-line text-4xl sm:text-5xl text-red-500" />
+    </div>
+
+    {/* Content */}
+    <div className="flex-1 w-full">
+      <h3 className="text-lg sm:text-xl font-bold text-black mb-2 break-words">
+        {resume?.filename || 'No file'}
+      </h3>
+
+      <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-gray-500 text-sm sm:text-base">
+        <span className="flex items-center gap-2">
+          <i className="ri-hard-drive-2-line" />
+          379.5 KB
+        </span>
+
+        <span className="flex items-center gap-2">
+          <i className="ri-calendar-line" />
+          {resume?.createdAt &&
+            new Date(resume.createdAt).toLocaleDateString('en-IN')}
+        </span>
+      </div>
+    </div>
+
+    {/* Buttons */}
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full md:w-auto">
+
+      <button
+        onClick={handleDownload}
+        className="w-full sm:w-auto px-5 py-2.5 bg-[#facc15] text-black rounded-lg font-medium hover:bg-[#eab308] transition-colors flex items-center justify-center gap-2"
+      >
+        <i className="ri-download-line" />
+        <span>Download</span>
+      </button>
+
+      <label className="w-full sm:w-auto px-5 py-2.5 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 cursor-pointer">
+        <i className="ri-restart-line" />
+        <span>Replace</span>
+        <input accept=".pdf" className="hidden" type="file" />
+      </label>
+
+      <button
+        onClick={() => handleDelete(resume)}
+        className="w-full sm:w-auto px-4 py-2.5 border border-red-200 text-red-500 rounded-lg hover:bg-red-50 transition-colors flex items-center justify-center"
+      >
+        <i className="ri-delete-bin-line" />
+      </button>
+
+    </div>
+  </div>
+</div>
 {/*  */}
       <div className="bg-blue-50 rounded-xl p-6">
         <div className="flex items-start gap-4">
