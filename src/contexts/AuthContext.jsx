@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from 'react'
 
  const AuthContext = createContext()
 
-const API_URL = 'https://portfoliobackend-production-5fd0.up.railway.app/api'
+const API_URL = 'https://portfolio-backend-n6et.onrender.com/api'
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)

@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'https://portfoliobackend-production-5fd0.up.railway.app',
+      '/api': 'https://portfolio-backend-n6et.onrender.com',
     },
   },
 })

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../../contexts/useAuth'
 
-const API_URL = 'https://portfoliobackend-production-5fd0.up.railway.app/api'
+const API_URL = 'https://portfolio-backend-n6et.onrender.com/api'
 
 function Resume() {
   const { user } = useAuth()
@@ -87,7 +87,7 @@ const handleDownload = async () => {
 
   try {
     // ✅ LIVE BACKEND URL USE KARO
-    const fileUrl = `https://portfoliobackend-production-5fd0.up.railway.app${resume.filepath}`
+    const fileUrl = `https://portfolio-backend-n6et.onrender.com${resume.filepath}`
 
     const res = await fetch(fileUrl)
 

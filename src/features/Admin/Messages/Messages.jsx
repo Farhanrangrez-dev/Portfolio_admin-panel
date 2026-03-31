@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../../contexts/useAuth'
 
-const API_URL = 'https://portfoliobackend-production-5fd0.up.railway.app/api'
+const API_URL = 'https://portfolio-backend-n6et.onrender.com/api'
 
 function Messages() {
   const [messages, setMessages] = useState([])
