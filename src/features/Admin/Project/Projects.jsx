@@ -78,100 +78,100 @@ function Projects() {
     setIsOpen(true)
   }
 
-const handleSubmit = async (e) => {
-  e.preventDefault()
-  setSubmitting(true)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
 
-  try {
+    try {
 
-    // ✅ check: image file hai ya nahi
-   const isFile = formData.image && typeof formData.image !== "string"
+      // ✅ check: image file hai ya nahi
+      const isFile = formData.image && typeof formData.image !== "string"
 
-    let body
-    let headers
+      let body
+      let headers
 
-    if (isFile) {
-      // ✅ FormData only when image present
-      const form = new FormData()
+      if (isFile) {
+        // ✅ FormData only when image present
+        const form = new FormData()
 
-      Object.keys(formData).forEach((key) => {
-        if (key === "image") {
-          form.append("image", formData.image) // file
-        } else if (key === "technologies") {
-          form.append("technologies", JSON.stringify(formData.technologies))
-        } else {
-          form.append(key, formData[key])
+        Object.keys(formData).forEach((key) => {
+          if (key === "image") {
+            form.append("image", formData.image) // file
+          } else if (key === "technologies") {
+            form.append("technologies", JSON.stringify(formData.technologies))
+          } else {
+            form.append(key, formData[key])
+          }
+        })
+        body = form
+        headers = {
+          Authorization: `Bearer ${user?.token}` // ❌ no content-type
         }
-      })
-      body = form
-      headers = {
-        Authorization: `Bearer ${user?.token}` // ❌ no content-type
+
+      } else {
+        // ✅ Normal JSON (no change)
+        body = JSON.stringify({
+          ...formData,
+          technologies: formData.technologies
+        })
+        headers = getHeaders()
       }
 
-    } else {
-      // ✅ Normal JSON (no change)
-    body = JSON.stringify({
-  ...formData,
-  technologies: formData.technologies
-})
-      headers = getHeaders()
+      let res
+
+      if (editingId) {
+        res = await fetch(`${API_URL}/projects/${editingId}`, {
+          method: 'PUT',
+          headers,
+          body,
+        })
+      } else {
+        res = await fetch(`${API_URL}/projects`, {
+          method: 'POST',
+          headers,
+          body,
+        })
+      }
+
+
+      let result;
+
+      try {
+        result = await res.json();
+      } catch (err) {
+        throw new Error("Invalid server response");
+      }
+
+      if (!res.ok) throw new Error(result.message)
+
+      // ✅ yaha fix hai
+      const projectData = result?.data || result;
+
+      if (!projectData) {
+        toast.error("Invalid server response");
+        return;
+      }
+
+      if (editingId) {
+        setProjects(prev =>
+          prev
+            .map((p) => (p._id === editingId ? projectData : p))
+            .filter(Boolean)
+        )
+        toast.success('Project updated!')
+      } else {
+        setProjects(prev => [projectData, ...prev])
+        toast.success('Project added!')
+      }
+
+      setIsOpen(false)
+
+    } catch (error) {
+      toast.error(error.message || 'Something went wrong')
+    } finally {
+      setSubmitting(false)
     }
-
-    let res
-
-    if (editingId) {
-      res = await fetch(`${API_URL}/projects/${editingId}`, {
-        method: 'PUT',
-        headers,
-        body,
-      })
-    } else {
-      res = await fetch(`${API_URL}/projects`, {
-        method: 'POST',
-        headers,
-        body,
-      })
-    }
-  
-    
-let result;
-
-try {
-  result = await res.json();
-} catch (err) {
-  throw new Error("Invalid server response");
-}
-
-if (!res.ok) throw new Error(result.message)
-
-// ✅ yaha fix hai
-const projectData = result?.data || result;
-
-if (!projectData) {
-  toast.error("Invalid server response");
-  return;
-}
-
-if (editingId) {
-  setProjects(prev =>
-  prev
-    .map((p) => (p._id === editingId ? projectData : p))
-    .filter(Boolean)
-)
-  toast.success('Project updated!')
-} else {
-  setProjects(prev => [projectData, ...prev])
-  toast.success('Project added!')
-}
-
-    setIsOpen(false)
-
-  } catch (error) {
-    toast.error(error.message || 'Something went wrong')
-  } finally {
-    setSubmitting(false)
   }
-}
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this project?')) return
@@ -196,7 +196,7 @@ if (editingId) {
       </div>
     )
   }
- 
+
   return (
     <div>
       <div className="space-y-6">
@@ -225,7 +225,7 @@ if (editingId) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-           {projects?.filter(Boolean).map((project) => (
+            {projects?.filter(Boolean).map((project) => (
               <div
                 key={project._id}
                 className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
@@ -235,7 +235,7 @@ if (editingId) {
                     <img
                       alt={project.title}
                       className="w-full h-full object-cover"
-                   src={project?.image || ""}
+                      src={project?.image || ""}
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-100 flex items-center justify-center">
@@ -272,7 +272,7 @@ if (editingId) {
                       {tech}
                     </button>
                   ))}
-                  
+
                   <div className="flex items-center gap-4 mb-4">
                     {project.liveUrl && (
                       <a
@@ -344,7 +344,7 @@ if (editingId) {
                     Project Title *
                   </label>
                   <input
-                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#facc15] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#facc15] focus:border-transparent"
                     placeholder="Enter project title"
                     required
                     type="text"
@@ -367,26 +367,26 @@ if (editingId) {
                     onChange={handleChange}
                   />
                 </div> */}
-     <div className="md:col-span-2">
-  <label className="block text-sm font-medium text-black mb-2">
-    Project Image Upload
-  </label>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-black mb-2">
+                    Project Image Upload
+                  </label>
 
-  <input
-    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#facc15] focus:border-transparent"
-    type="file"
-    accept="image/*"
-    onChange={(e) => {
-      const file = e.target.files[0];
-      if (file) {
-        setFormData({ ...formData, image: file }); // ✅ correct
-      }
-    }}
-  />
-</div>
+                  <input
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#facc15] focus:border-transparent"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setFormData({ ...formData, image: file }); // ✅ correct
+                      }
+                    }}
+                  />
+                </div>
 
 
-                
+
 
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-black mb-2">
@@ -417,7 +417,13 @@ if (editingId) {
                     <option value="Html/Css">Html/Css</option>
                     <option value="Javascript"> Javascript</option>
                     <option value="React">Reactjs</option>
-                    <option value="Fullstack">Fullstack</option>
+                    <option value="React Native">ReactNative</option>
+                    <option value="Node.js">Node.js</option>
+                    <option value="Express.js">Express.js</option>
+                    <option value="MongoDB">MongoDB</option>
+                     <option value="Shopify">Shopify</option>
+                    <option value="MERN Stack">MERN Stack</option>
+                    <option value="Full Stack Development">Full Stack Development</option>
                   </select>
                 </div>
 
@@ -524,6 +530,10 @@ if (editingId) {
                       "Redis",
                       "Firebase",
                       "Supabase",
+
+                      "MERN Stack",
+                      "Full Stack Development",
+                      "AI Development"
 
                       // DevOps / Cloud
                       // "Docker",
